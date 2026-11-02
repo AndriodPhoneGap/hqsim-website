@@ -1,7 +1,8 @@
-import { Mail, Phone, MapPin, ArrowRight, Download, Sparkles } from "lucide-react"
+import { Mail, Phone, MapPin, ArrowRight, Download, Rss, Sparkles } from "lucide-react"
 import { brand } from "@/data/site"
 import { Reveal } from "@/components/common/Reveal"
 import { Section } from "@/components/common/SectionHeading"
+import { TRACK_EVENTS, track } from "@/lib/analytics"
 
 /**
  * 底部行动号召：全宽大区块 + 电路纹理 + 青色径向辉光
@@ -41,20 +42,34 @@ export default function Cta() {
               {/* 按钮组 */}
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
                 <a
-                  href={`mailto:${brand.contact}?subject=${encodeURIComponent("预约技术交流")}`}
+                  href="#lead"
+                  onClick={() =>
+                    track(TRACK_EVENTS.CTA_CLICK, { source: "cta", label: "submit-requirement" })
+                  }
                   className="btn-glow group focus-visible:ring-cyan-500/60"
                 >
-                  预约技术交流
+                  提交选型需求
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 <a
-                  href={`mailto:${brand.contact}?subject=${encodeURIComponent("申请下载产品手册")}`}
+                  href="#lead"
+                  onClick={() =>
+                    track(TRACK_EVENTS.CTA_CLICK, { source: "cta", label: "download-toolkit" })
+                  }
                   className="btn-ghost group"
                 >
                   <Download className="h-4 w-4" />
-                  下载产品手册
+                  下载选型工具包
                 </a>
               </div>
+
+              {/* 公众号引导 */}
+              <p className="mt-5 flex items-center justify-center gap-2 text-[13px] text-muted-foreground">
+                <Rss className="h-3.5 w-3.5 text-cyan-500/70" aria-hidden="true" />
+                也可在公众号
+                <strong className="font-medium text-foreground">{brand.wechatName}</strong>
+                回复「选型」获取资料
+              </p>
 
               {/* 联系方式 */}
               <div className="mt-10 flex flex-col items-center gap-4 border-t border-white/[0.08] pt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-3">

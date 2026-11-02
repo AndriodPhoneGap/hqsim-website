@@ -4,6 +4,8 @@
 
 一套可直接部署到 **GitHub Pages** 的单页企业官网，聚焦半导体与人工智能赛道，展示技术能力、芯片架构、产品矩阵、工艺路线、生态合作与客户案例。
 
+**已内置公众号私域变现链路**：技术洞察区（与公众号同步的深度分析）→ 工具包勾选留资 → 选型需求表单 → 全站微信浮标。详细运营方法见 [PRIVATE-DOMAIN-GUIDE.md](./PRIVATE-DOMAIN-GUIDE.md)。
+
 **技术栈**：React 19 · TypeScript · Vite 7 · Tailwind CSS 3 · shadcn/ui · lucide-react
 
 ---
@@ -104,17 +106,33 @@ semiconductor-ai/
 │   │   ├── Architecture.tsx       # 五层芯片架构（交互式 SVG 剖面图）
 │   │   ├── Products.tsx           # 产品矩阵（含跑马灯）
 │   │   ├── Applications.tsx       # 应用场景
+│   │   ├── Insights.tsx           # 技术洞察（与公众号联动 + 订阅侧栏）
 │   │   ├── ProcessRoadmap.tsx     # 工艺路线图时间轴
 │   │   ├── Ecosystem.tsx          # 生态合作
 │   │   ├── Cases.tsx              # 客户案例
 │   │   ├── News.tsx               # 新闻动态
 │   │   ├── Faq.tsx                # 常见问题
+│   │   ├── LeadCapture.tsx        # 选型需求留资表单（私域转化主路径）
 │   │   └── Cta.tsx               # 底部行动号召
-│   ├── hooks/                     # 自定义 Hook
-│   └── lib/utils.ts               # 工具函数（cn 等）
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Reveal.tsx         # 滚动进场动画（IntersectionObserver）
+│   │   │   └── SectionHeading.tsx # 区块标题组 + 区块外壳
+│   │   ├── layout/
+│   │   │   ├── Footer.tsx         # 页脚
+│   │   │   └── WechatDock.tsx     # 全站微信私域浮标（二维码弹窗）
+│   │   └── ui/                    # shadcn/ui 组件库（40+）
+│   ├── lib/
+│   │   ├── utils.ts               # 工具函数（cn 等）
+│   │   └── analytics.ts           # 轻量埋点（GA4 + 微信 SDK 双通道）
+│   └── hooks/                     # 自定义 Hook
+├── public/
+│   ├── 404.html                   # 自定义 404 页面（深色科技风）
+│   └── wechat-qrcode.svg          # 公众号二维码（占位图，需替换）
 ├── index.html                     # SEO / Open Graph / favicon
 ├── tailwind.config.js             # 品牌色板、字体、动画、阴影
-└── vite.config.ts
+├── vite.config.ts
+└── PRIVATE-DOMAIN-GUIDE.md        # 公众号 × 官网 私域运营手册
 ```
 
 ---
@@ -139,7 +157,24 @@ export const cases = [...]              // 客户案例
 export const news = [...]               // 新闻动态
 export const faqs = [...]               // 常见问题
 export const footerColumns = [...]      // 页脚链接
+export const insights = [...]           // 技术洞察（与公众号同步的深度分析）
+export const toolkits = [...]           // 免费工具包（私域留资钩子）
+export const leadForm = {...}           // 留资表单配置（字段 / 卖点 / 隐私条款）
 ```
+
+### 修改公众号信息
+
+```ts
+export const brand = {
+  // ...
+  wechatName: "芯智纪元",        // 公众号名称
+  wechatId: "xinzhi_era",        // 微信号
+  wechatQr: "/wechat-qrcode.svg", // 二维码图片路径
+  wecomName: "芯智选型顾问",     // 企业微信名称
+}
+```
+
+替换 `public/wechat-qrcode.svg` 为真实二维码图片，全站 3 处引用（洞察侧栏、留资表单、浮标弹窗）自动生效。
 
 ### 修改配色
 
@@ -174,6 +209,8 @@ ink:    { 950: "#04060d", 900: "#070b16", ... }            // 深色底
 - **导航滚动高亮**：实时跟随视口高亮当前区块
 - **数字计数动画**：首屏指标滚动到位后缓动递增
 - **交互式架构图**：hover 五层架构，垂直导轨流动光点跟随高亮层
+- **私域转化链路**：技术洞察 ↔ 公众号双向导流、工具包勾选留资、表单校验与成功态引导、全站微信浮标
+- **零依赖埋点**：GA4 + 微信 JS-SDK 双通道上报，UTM 渠道归因，8 类事件覆盖完整漏斗
 - **全响应式**：移动端到宽屏无横向滚动，含移动端抽屉菜单
 - **无障碍**：语义化标签、键盘可达、`aria-*` 标注、跳转链接、`prefers-reduced-motion` 降级
 - **零外部依赖字体**：使用系统中文字体栈，首屏无第三方字体请求

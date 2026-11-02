@@ -11,12 +11,19 @@ export const brand = {
   contact: "contact@xinzhi-era.com",
   phone: "+86 755-8899-2077",
   address: "深圳市南山区科技园 芯智大厦 18F",
+  /** 微信公众号（私域主阵地） */
+  wechatName: "芯智纪元",
+  wechatId: "xinzhi_era",
+  wechatQr: "/wechat-qrcode.svg",
+  /** 企业微信（销售承接） */
+  wecomName: "芯智选型顾问",
 }
 
 export const nav = [
   { id: "capability", label: "技术能力", en: "Capability" },
   { id: "architecture", label: "芯片架构", en: "Architecture" },
   { id: "product", label: "产品矩阵", en: "Products" },
+  { id: "insights", label: "技术洞察", en: "Insights" },
   { id: "process", label: "工艺路线", en: "Process" },
   { id: "ecosystem", label: "生态合作", en: "Ecosystem" },
   { id: "news", label: "动态", en: "News" },
@@ -380,3 +387,207 @@ export const footerColumns = [
     links: ["公司简介", "新闻动态", "加入我们", "媒体报道", "联系与地址"],
   },
 ]
+
+/* ==========================================================================
+   技术洞察 —— 与微信公众号联动的内容区
+   内容模型对齐行业头部公众号：认知型 + 决策型内容占主体，
+   每篇都附带「可落地的行动建议」，把阅读行为自然导向选型咨询。
+   ========================================================================== */
+
+export const insights = [
+  {
+    id: "glass-substrate",
+    date: "2026-10-28",
+    category: "先进封装",
+    readTime: "12 min",
+    title: "玻璃基板被吹成破局点，却困在脆性和良率里",
+    summary:
+      "英特尔称 TGV 良率突破 95%，而行业原型线卡在 65%。同一个技术、两个口径，中间隔着二十多个百分点——这才是从发布会走到量产机台的真实距离。",
+    takeaways: [
+      "玻璃解决的是真问题：热膨胀系数 3.2 对硅 2.6，翘曲压到 10μm 以内",
+      "四道坎：脆性、TGV 填充、界面应力、检测节拍，全都不是堆时间能过的",
+      "现在能做的三件事：索要 TGV 设计规则文档、按单片良品成本算账、跑整叠结构验证",
+    ],
+    cta: "评估供应商封装路线时，要问的第一个问题是良率报告",
+    tags: ["玻璃基板", "TGV", "Chiplet", "良率"],
+  },
+  {
+    id: "tapeout-cost",
+    date: "2026-10-15",
+    category: "成本结构",
+    readTime: "10 min",
+    title: "流片失败一次，损失的是多少钱",
+    summary:
+      "流片约占硬件成本四成，而其中最贵的是掩模版而非晶圆。真正压垮项目的不是那几百万美元，而是随之而来的时间窗口与机会成本。",
+    takeaways: [
+      "14nm 流一次片约 300 万美元，掩模版按层数计价且不可返工",
+      "改一颗晶体管：设计阶段几天几万人，进了掩模版就是几万美金加几个月",
+      "降低风险的四层做法：验证充分、仿真收敛、投片预演、锁死工程余量",
+    ],
+    cta: "首次流片风险已可由保险与补贴分担，但设计阶段必须一次做对",
+    tags: ["流片", "掩模版", "成本", "EDA"],
+  },
+  {
+    id: "mcu-vs-fpga",
+    date: "2026-09-27",
+    category: "选型指南",
+    readTime: "8 min",
+    title: "MCU 和 FPGA 到底怎么选：一张表说清楚",
+    summary:
+      "任务性质决定架构。通用控制与顺序逻辑选 MCU，海量并行与硬件级定制选 FPGA，而需要同时兼顾成本与算力的场景，答案往往是 SoC。",
+    takeaways: [
+      "看实时性：MCU 靠中断与时钟周期，FPGA 延时低到亚微秒级",
+      "看可迭代性：硬件级问题在 FPGA 上重构成本远低于 ASIC 回炉",
+      "看系统复杂度：CPU + GPU + NPU 集成到单一 SoC 才能同时压住体积与性能",
+    ],
+    cta: "不确定选哪条路线？把需求发给我们，24 小时内给到选型建议",
+    tags: ["MCU", "FPGA", "SoC", "选型"],
+  },
+  {
+    id: "ai-chip-landscape",
+    date: "2026-09-08",
+    category: "产业格局",
+    readTime: "11 min",
+    title: "AI 芯片四强路线对比：谁在定义下一代算力",
+    summary:
+      "从 GPU 通用并行到 TPU 专用矩阵再到 NPU 端侧推理，四条路线并非替代关系。真正的分野在于：谁能把特定场景的能效推到极致。",
+    takeaways: [
+      "CPU / GPU / TPU / NPU 的差异是数据搬运效率，不是算力绝对值",
+      "训练侧的核心矛盾是通信开销，推理侧的核心矛盾是访存带宽",
+      "存算一体是绕开搬运瓶颈的架构级解法，能效提升可达一个量级",
+    ],
+    cta: "算力选型不是追峰值参数，先看你的负载是通信瓶颈还是带宽瓶颈",
+    tags: ["GPU", "TPU", "NPU", "存算一体"],
+  },
+  {
+    id: "auto-chip",
+    date: "2026-08-20",
+    category: "车规芯片",
+    readTime: "9 min",
+    title: "中央计算架构下，车载芯片方案怎么重新排位",
+    summary:
+      "从分散 ECU 走向「中央 + 区域」，芯片的角色正从功能单元变成算力节点。功能安全、带宽与热设计三者共同决定新架构的芯片选型逻辑。",
+    takeaways: [
+      "单车芯片数量超 1700 颗，架构集中化让算力节点设计取代功能堆叠",
+      "Chiplet 让功能安全单元与 AI 加速器在同一 SoC 内安全共存",
+      "国产 14nm 车规产线良率突破 95%，为域控方案提供第二供应源",
+    ],
+    cta: "域控算力方案要同时满足功能安全与热约束，欢迎来聊具体工况",
+    tags: ["汽车电子", "Chiplet", "RISC-V", "中央计算"],
+  },
+  {
+    id: "supply-risk",
+    date: "2026-07-30",
+    category: "供应链",
+    readTime: "7 min",
+    title: "一颗芯片停产的连锁反应，比断供本身更贵",
+    summary:
+      "替代料不是查一张表那么简单。真正的成本在认证周期、库存策略与二供验证的提前量上，这三件事决定你能否优雅地切换方案。",
+    takeaways: [
+      "二供导入的核心变量是认证周期，而非技术兼容性",
+      "安全库存按在途交期与风险概率测算，而非按历史用量",
+      "国产替代的可执行性要用同工艺节点的真实量产数据验证",
+    ],
+    cta: "需要一份针对你们 BOM 的断供风险评估？我们可以做",
+    tags: ["供应链", "替代料", "断供", "国产化"],
+  },
+]
+
+/* ==========================================================================
+   选型工具 —— 免费领取的钩子，是私域留资的核心载体
+   ========================================================================== */
+
+export const toolkits = [
+  {
+    id: "selection-matrix",
+    icon: "Table",
+    title: "AI 芯片选型对照矩阵",
+    desc: "覆盖算力、带宽、功耗、封装、生态、供货六维的 28 款主流芯片横向对比，支持按场景筛选。",
+    format: "Excel · 28 款",
+    hot: true,
+  },
+  {
+    id: "replacement-list",
+    icon: "Replace",
+    title: "国产替代料速查清单",
+    desc: "按功能分类整理的国产对标型号，标注 PIN 兼容情况、认证状态与已验证产线。",
+    format: "PDF · 42 页",
+    hot: true,
+  },
+  {
+    id: "tapeout-checklist",
+    icon: "ClipboardCheck",
+    title: "首次流片自检清单",
+    desc: "从 DRC、LVS 到工程余量的 68 项检查点，附每个检查点对应的风险等级与建议责任人。",
+    format: "PDF · 18 页",
+    hot: false,
+  },
+  {
+    id: "power-budget",
+    icon: "Gauge",
+    title: "整机功耗预算模板",
+    desc: "按模块拆解推理服务器与边缘模组的功耗模型，支持自定义负载率与散热条件测算。",
+    format: "Excel · 8 表",
+    hot: false,
+  },
+]
+
+/* ==========================================================================
+   留资表单 —— 私域转化的主路径
+   ========================================================================== */
+
+export const leadForm = {
+  title: "提交选型需求，24 小时内拿到建议",
+  desc: "留下场景与约束，我们会匹配同工艺节点的量产方案，并附上替代料与风险评估。此表单同时用于添加工程师微信好友的技术沟通入口。",
+  privacy: "提交即表示同意我们通过微信或电话与您联系，信息仅用于技术咨询，不会对外提供。",
+  fields: [
+    {
+      id: "name",
+      label: "称呼",
+      placeholder: "如：王工",
+      required: true,
+      type: "text",
+    },
+    {
+      id: "company",
+      label: "公司名称",
+      placeholder: "如：深圳某某智能科技有限公司",
+      required: true,
+      type: "text",
+    },
+    {
+      id: "phone",
+      label: "手机号",
+      placeholder: "用于接收选型建议",
+      required: true,
+      type: "tel",
+    },
+    {
+      id: "wechat",
+      label: "微信号",
+      placeholder: "选填，方便我们添加好友",
+      required: false,
+      type: "text",
+    },
+    {
+      id: "scene",
+      label: "应用场景",
+      placeholder: "如：工业质检 / 边缘推理 / 智算集群",
+      required: true,
+      type: "select",
+      options: ["工业质检与机器视觉", "边缘 AI / 智能网关", "智算中心 / 大模型推理", "智能驾驶域控", "智能安防", "其他"],
+    },
+    {
+      id: "demand",
+      label: "具体需求",
+      placeholder: "如：需要 32TOPS 以上 INT8 算力，功耗不超过 15W，用于 4 路 1080P 视频实时分析",
+      required: true,
+      type: "textarea",
+    },
+  ],
+  benefits: [
+    { icon: "Clock", title: "24 小时响应", desc: "工作日 2 小时内确认需求，24 小时内给到初步方案" },
+    { icon: "ShieldCheck", title: "同节点量产方案", desc: "只推荐已量产验证的料号，不做纸面参数承诺" },
+    { icon: "Layers", title: "替代料评估", desc: "同步给出国产对标型号与二供导入风险提示" },
+  ],
+}

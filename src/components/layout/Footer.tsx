@@ -79,7 +79,7 @@ const LINK_HREF: Record<string, string | undefined> = {
 const SOCIALS = [
   { icon: Github, label: "GitHub", href: "https://github.com/your-org/xinzhi-era", external: true },
   { icon: MessageCircle, label: "知乎", href: "#news", external: false },
-  { icon: Rss, label: "微信公众号", href: "#news", external: false },
+  { icon: Rss, label: "微信公众号", href: "#insights", external: false },
   { icon: Mail, label: "邮件订阅", href: `mailto:${brand.contact}`, external: false },
 ]
 
