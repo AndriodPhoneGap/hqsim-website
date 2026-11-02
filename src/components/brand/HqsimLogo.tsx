@@ -1,15 +1,21 @@
 import { cn } from "@/lib/utils"
+import logo128 from "@/assets/hqsim-logo-128.png"
+import logo256 from "@/assets/hqsim-logo-256.png"
 
 /**
  * HQSIM 品牌标识。
  *
- * 使用官方 logo 资源（透明底 PNG，源自 hqsim.com），
- * 通过 CSS mask 让图形继承当前文字颜色，从而适配深色背景下的不同场景。
+ * 使用官方 logo 资源（透明底 PNG，源自 hqsim.com）。
+ *
+ * 资源通过 Vite 静态导入引入，构建时会自动改写为带 base 前缀的绝对地址，
+ * 因此在 GitHub Pages 子路径（如 /hqsim-website/）部署时也能正确加载 ——
+ * 若手写 "/hqsim-logo-128.png" 会被解析到站点根目录而 404。
  */
+
+/** HQSIM 官方圆徽章（导航栏等紧凑场景） */
 export function HqsimMark({
   className,
-  /** 图片资源路径，优先使用小尺寸版本以节省带宽 */
-  src = "/hqsim-logo-128.png",
+  src = logo128,
 }: {
   className?: string
   src?: string
@@ -33,7 +39,7 @@ export function HqsimMark({
  */
 export function HqsimMarkColor({
   className,
-  src = "/hqsim-logo-256.png",
+  src = logo256,
 }: {
   className?: string
   src?: string

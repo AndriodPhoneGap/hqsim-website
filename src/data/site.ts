@@ -3,6 +3,8 @@
  * 品牌：HQSIM 探芯测试 —— AI 芯片探针卡 & 测试座定制专家
  */
 
+import wechatQrAsset from "@/assets/wechat-qrcode.svg"
+
 export const brand = {
   name: "HQSIM 探芯测试",
   nameEn: "PROBE CARD & TEST SOCKET",
@@ -14,7 +16,8 @@ export const brand = {
   /** 微信公众号（私域主阵地） */
   wechatName: "HQSIM 探芯测试",
   wechatId: "abcm-888",
-  wechatQr: "/wechat-qrcode.svg",
+  /** 微信二维码 —— 由 Vite 静态导入，部署到子路径时也能正确加载 */
+  wechatQr: wechatQrAsset,
   /** 企业微信（销售承接） */
   wecomName: "HQSIM 探针卡顾问",
   /** 官方站点与代码仓库 */
