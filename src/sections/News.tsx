@@ -27,7 +27,7 @@ export default function News() {
                 最新<span className="text-gradient">动态</span>
               </>
             }
-            desc="产品发布、技术突破与生态进展 —— 追踪芯智纪元的每一次向前。"
+            desc="产品发布、技术突破与生态进展 —— 追踪探芯测试的每一次向前。"
           />
 
           <Reveal delay={120} className="mt-8">

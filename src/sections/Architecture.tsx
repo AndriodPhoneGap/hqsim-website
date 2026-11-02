@@ -42,27 +42,30 @@ const ACCENT_STYLES: Record<
 
 /** 每层右侧的装饰性等宽示意图 */
 const LAYER_ART: Record<string, string> = {
-  l5: "┌─────┐\n│ + + │\n└─────┘",
-  l4: "┌───┐\n│ → │\n└───┘",
-  l3: "├─┤\n│ │\n└─┘",
+  l5: "┌───┐\n│ ✓ │\n└───┘",
+  l4: "┌─┐┌─┐\n└─┘└─┘",
+  l3: "╱│╲│╱\n │ │ │",
   l2: "┌┐┌┐┌┐\n└┘└┘└┘",
-  l1: "═══════\n┌─────┐\n└─────┘",
+  l1: "╔═════╗\n║ ▣ ▣ ║\n╚═════╝",
 }
 
-/** 芯片剖面示意图：die → 中介层 → HBM → 封装基板 */
-function ChipCrossSection() {
-  const tiles = Array.from({ length: 12 }, (_, i) => {
-    const col = i % 4
-    const row = Math.floor(i / 4)
-    return <rect key={i} x={136 + col * 24} y={94 + row * 21} width="16" height="14" rx="1.5" />
+/** 探针卡与测试座剖面示意图：探针 → PAD → 芯片 die → 测试座 → PCB */
+function ProbeCrossSection() {
+  // 探针阵列：12 根，针尖向下接触芯片 PAD
+  const probes = Array.from({ length: 12 }, (_, i) => {
+    const col = i % 6
+    const row = Math.floor(i / 6)
+    return { x: 108 + col * 26, y: 96 + row * 26 }
   })
 
-  const vias = Array.from({ length: 16 }, (_, i) => (
-    <circle key={i} cx={60 + i * 16} cy="192" r="1.8" />
+  // 测试座焊球阵列
+  const sockets = Array.from({ length: 14 }, (_, i) => (
+    <circle key={i} cx={62 + i * 18} cy="288" r="4" />
   ))
 
-  const bga = Array.from({ length: 12 }, (_, i) => (
-    <circle key={i} cx={60 + i * 22} cy="240" r="4" />
+  // PCB 走线焊盘
+  const pads = Array.from({ length: 20 }, (_, i) => (
+    <rect key={i} x={44 + i * 14} y="330" width="7" height="7" rx="1.5" />
   ))
 
   return (
@@ -70,14 +73,14 @@ function ChipCrossSection() {
       viewBox="0 0 360 410"
       className="h-auto w-full"
       role="img"
-      aria-labelledby="xze-package-diagram-title"
+      aria-labelledby="hqsim-probe-diagram-title"
     >
-      <title id="xze-package-diagram-title">
-        XZE-N900 2.5D Chiplet 封装剖面示意图，包含 NPU die、UCIe 互联、HBM3E、中介层与封装基板
+      <title id="hqsim-probe-diagram-title">
+        HQSIM 探针卡与测试座剖面示意图，包含探针针体、芯片 PAD、探针卡 PCB、测试座与夹具
       </title>
 
       <defs>
-        <filter id="xze-svg-glow" x="-40%" y="-40%" width="180%" height="180%">
+        <filter id="hqsim-svg-glow" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="2.4" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
@@ -87,116 +90,128 @@ function ChipCrossSection() {
       </defs>
 
       {/* 标题 */}
-      <text x="20" y="22" className="font-mono" fontSize="9" fill="#5ee9ff" fillOpacity="0.6">
-        XZE-N900 / 2.5D PACKAGE
+      <text x="20" y="22" className="font-mono" fontSize="9" fill="#8ff8dc" fillOpacity="0.6">
+        HQSIM / PROBE CARD SECTION
       </text>
 
-      {/* 顶盖 */}
+      {/* 探针卡 PCB（顶板） */}
       <rect x="48" y="40" width="264" height="24" rx="4" fill="#0e1528" stroke="#1c2745" />
-      <text x="180" y="55.5" textAnchor="middle" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.45">
-        LID / IHS
+      <text x="180" y="55.5" textAnchor="middle" className="font-mono" fontSize="8" fill="#8ff8dc" fillOpacity="0.5">
+        PROBE CARD PCB
       </text>
 
-      {/* HBM3E 左侧 */}
-      <rect x="60" y="86" width="52" height="68" rx="2" fill="#0a0f1e" stroke="#5eead4" />
-      <path d="M60 102h52M60 118h52M60 134h52" stroke="#5eead4" strokeOpacity="0.3" />
-      <text x="86" y="80" textAnchor="middle" className="font-mono" fontSize="7.5" fill="#5eead4" fillOpacity="0.85">
-        HBM3E
+      {/* 探针针体：悬臂结构，针尖向下 */}
+      <g>
+        {probes.map((pr, i) => (
+          <g key={i}>
+            {/* 针身 */}
+            <rect
+              x={pr.x}
+              y={pr.y}
+              width="10"
+              height="22"
+              rx="2"
+              fill="#0a0f1e"
+              stroke="#40c29e"
+              strokeOpacity="0.85"
+              strokeWidth="1"
+            />
+            {/* 刀锋型针尖 */}
+            <path
+              d={`M${pr.x + 5} ${pr.y + 22}v9`}
+              stroke="#8ff8dc"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+            {/* 接触点 */}
+            <circle cx={pr.x + 5} cy={pr.y + 33} r="1.8" fill="#8ff8dc" />
+          </g>
+        ))}
+      </g>
+      <text x="252" y="76" className="font-mono" fontSize="7.5" fill="#8ff8dc" fillOpacity="0.7">
+        BLADE
+      </text>
+      <text x="252" y="86" className="font-mono" fontSize="7.5" fill="#8ff8dc" fillOpacity="0.7">
+        PROBE
       </text>
 
-      {/* HBM3E 右侧 */}
-      <rect x="248" y="86" width="52" height="68" rx="2" fill="#0a0f1e" stroke="#5eead4" />
-      <path d="M248 102h52M248 118h52M248 134h52" stroke="#5eead4" strokeOpacity="0.3" />
-      <text x="274" y="80" textAnchor="middle" className="font-mono" fontSize="7.5" fill="#5eead4" fillOpacity="0.85">
-        HBM3E
-      </text>
-
-      {/* UCIe 互联 */}
-      <path
-        d="M112 100h12M236 100h12"
-        stroke="#22d3ee"
-        strokeOpacity="0.85"
-        strokeDasharray="4 6"
-        strokeLinecap="round"
-        className="animate-trace-flow"
-      />
-      <text x="110" y="94" textAnchor="end" className="font-mono" fontSize="7" fill="#22d3ee" fillOpacity="0.7">
-        UCIe
-      </text>
-      <text x="250" y="94" className="font-mono" fontSize="7" fill="#22d3ee" fillOpacity="0.7">
-        UCIe
-      </text>
-
-      {/* NPU die */}
+      {/* 芯片 die */}
       <rect
-        x="124"
-        y="78"
-        width="112"
-        height="84"
+        x="96"
+        y="160"
+        width="168"
+        height="44"
         rx="3"
         fill="#0e1528"
         stroke="#8b5cf6"
         strokeWidth="1.2"
-        filter="url(#xze-svg-glow)"
+        filter="url(#hqsim-svg-glow)"
       />
-      <g fill="#8b5cf6" fillOpacity="0.4" stroke="#a78bfa" strokeOpacity="0.5" strokeWidth="0.8">
-        {tiles}
+      {/* die 上的 PAD 焊盘 */}
+      <g fill="#8b5cf6" fillOpacity="0.5" stroke="#a78bfa" strokeOpacity="0.6" strokeWidth="0.7">
+        {probes.map((pr, i) => (
+          <rect key={i} x={pr.x} y="162" width="10" height="8" rx="1" />
+        ))}
       </g>
-      <text x="180" y="70" textAnchor="middle" className="font-mono" fontSize="8" fill="#a78bfa" fillOpacity="0.9">
-        NPU DIE · 12nm
+      <text x="180" y="196" textAnchor="middle" className="font-mono" fontSize="7.5" fill="#a78bfa" fillOpacity="0.9">
+        DIE · PAD ARRAY
       </text>
 
-      {/* TSV 硅通孔 */}
+      {/* PAD 到探针的接触线 */}
       <path
-        d="M90 162v20M116 162v20M142 162v20M168 162v20M194 162v20M220 162v20M246 162v20M272 162v20"
-        stroke="#5ee9ff"
-        strokeOpacity="0.3"
+        d="M113 160v-22M139 160v-38M165 160v-22M191 160v-38M217 160v-22M243 160v-38"
+        stroke="#40c29e"
+        strokeOpacity="0.8"
+        strokeDasharray="3 5"
+        strokeLinecap="round"
+        className="animate-trace-flow"
       />
 
-      {/* 中介层 */}
-      <rect x="48" y="182" width="264" height="34" rx="2" fill="#101a33" stroke="#22d3ee" strokeOpacity="0.7" />
-      <g fill="#5ee9ff" fillOpacity="0.45">
-        {vias}
-      </g>
-      <text x="180" y="208" textAnchor="middle" className="font-mono" fontSize="8" fill="#22d3ee" fillOpacity="0.85">
-        INTERPOSER · 2.5D
+      {/* 测试座（socket 主体） */}
+      <rect x="36" y="212" width="288" height="46" rx="4" fill="#101a33" stroke="#40c29e" strokeOpacity="0.75" />
+      <text x="180" y="238" textAnchor="middle" className="font-mono" fontSize="8" fill="#40c29e" fillOpacity="0.9">
+        TEST SOCKET
       </text>
 
-      {/* 封装基板 */}
-      <rect x="36" y="222" width="288" height="58" rx="4" fill="#0a0f1e" stroke="#1c2745" />
-      <g fill="#22d3ee" fillOpacity="0.25" stroke="#22d3ee" strokeOpacity="0.45" strokeWidth="0.8">
-        {bga}
+      {/* 测试座焊球 */}
+      <g fill="#8ff8dc" fillOpacity="0.45" stroke="#8ff8dc" strokeOpacity="0.55" strokeWidth="0.8">
+        {sockets}
       </g>
-      <text x="180" y="268" textAnchor="middle" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.55">
-        PKG SUBSTRATE
+
+      {/* 夹具 / 载板 */}
+      <rect x="24" y="268" width="312" height="26" rx="3" fill="#0e1528" stroke="#1c2745" />
+      <text x="180" y="285" textAnchor="middle" className="font-mono" fontSize="8" fill="#8ff8dc" fillOpacity="0.5">
+        FIXTURE / LOAD BOARD
       </text>
 
-      {/* 主板 */}
-      <rect x="24" y="288" width="312" height="22" rx="3" fill="#0e1528" stroke="#1c2745" />
-      <text x="180" y="303" textAnchor="middle" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.45">
-        MAINBOARD
+      {/* 走线焊盘层 */}
+      <g fill="#40c29e" fillOpacity="0.3" stroke="#40c29e" strokeOpacity="0.45" strokeWidth="0.7">
+        {pads}
+      </g>
+      <text x="180" y="322" textAnchor="middle" className="font-mono" fontSize="7.5" fill="#8ff8dc" fillOpacity="0.45">
+        PCB LAND PATTERN
       </text>
 
       {/* 图例 */}
-      <rect x="24" y="326" width="10" height="10" rx="2" fill="#8b5cf6" fillOpacity="0.6" stroke="#a78bfa" strokeOpacity="0.6" />
-      <text x="42" y="334.5" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.6">
-        NPU DIE
+      <rect x="24" y="338" width="10" height="10" rx="2" fill="#8b5cf6" fillOpacity="0.6" stroke="#a78bfa" strokeOpacity="0.6" />
+      <text x="42" y="346.5" className="font-mono" fontSize="8" fill="#8ff8dc" fillOpacity="0.6">
+        DIE / PAD
       </text>
-      <rect x="200" y="326" width="10" height="10" rx="2" fill="#5eead4" fillOpacity="0.7" />
-      <text x="218" y="334.5" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.6">
-        HBM3E
+      <rect x="200" y="338" width="10" height="10" rx="2" fill="#7df5c8" fillOpacity="0.7" />
+      <text x="218" y="346.5" className="font-mono" fontSize="8" fill="#8ff8dc" fillOpacity="0.6">
+        PROBE
       </text>
-      <rect x="24" y="348" width="10" height="10" rx="2" fill="#22d3ee" fillOpacity="0.7" />
-      <text x="42" y="356.5" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.6">
-        INTERPOSER
+      <rect x="24" y="360" width="10" height="10" rx="2" fill="#40c29e" fillOpacity="0.7" />
+      <text x="42" y="368.5" className="font-mono" fontSize="8" fill="#8ff8dc" fillOpacity="0.6">
+        SOCKET
       </text>
-      <rect x="200" y="348" width="10" height="10" rx="2" fill="#0e1528" stroke="#5ee9ff" strokeOpacity="0.6" />
-      <text x="218" y="356.5" className="font-mono" fontSize="8" fill="#5ee9ff" fillOpacity="0.6">
-        PKG SUBSTRATE
+      <rect x="200" y="360" width="10" height="10" rx="2" fill="#0e1528" stroke="#8ff8dc" strokeOpacity="0.6" />
+      <text x="218" y="368.5" className="font-mono" fontSize="8" fill="#8ff8dc" fillOpacity="0.6">
+        LOAD BOARD
       </text>
 
-      <text x="24" y="392" className="font-mono" fontSize="7.5" fill="#5ee9ff" fillOpacity="0.32">
-        FIG.01 / CHIplet PACKAGE CROSS-SECTION
+      <text x="24" y="396" className="font-mono" fontSize="7.5" fill="#8ff8dc" fillOpacity="0.32">
+        FIG.01 / PROBE CARD &amp; SOCKET CROSS-SECTION
       </text>
     </svg>
   )
@@ -245,14 +260,14 @@ export default function Architecture() {
 
       <div className="shell relative">
         <SectionHeading
-          eyebrow="FULL-STACK ARCHITECTURE"
+          eyebrow="PROBE CARD WORKFLOW"
           title={
             <>
-              五层一体的
-              <span className="text-gradient">芯片软硬件栈</span>
+              五环节贯通的
+              <span className="text-gradient">定制交付链路</span>
             </>
           }
-          desc="从 12nm 硅工艺与混合键合封装，到 XISA 指令集、XZE 编译器，再到上层模型与算法资产——五个层级纵向贯通，同一支团队贯穿从硅到应用的完整链路。"
+          desc="从客户 PAD 图纸审查与针位规划，到机械布局、针体材料工艺、探针卡与测试座组装，再到可靠性验证与批量交付——五个环节纵向贯通，同一支团队贯穿从图纸到量产的完整流程。"
           align="center"
         />
 
@@ -403,14 +418,14 @@ export default function Architecture() {
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent"
               />
-              <ChipCrossSection />
+              <ProbeCrossSection />
 
               <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/[0.07] pt-4">
                 {[
-                  { k: "制程", v: "12nm" },
-                  { k: "片间互联", v: "4.2 TB/s" },
-                  { k: "HBM 容量", v: "192 GB" },
-                  { k: "封装尺寸", v: "65×65 mm" },
+                  { k: "制造精度", v: "±5 μm" },
+                  { k: "最小 Pitch", v: "80 μm" },
+                  { k: "接触力", v: "10–80 g" },
+                  { k: "温度范围", v: "-40~200 ℃" },
                 ].map((item) => (
                   <div key={item.k}>
                     <p className="text-[11px] text-muted-foreground opacity-70">{item.k}</p>

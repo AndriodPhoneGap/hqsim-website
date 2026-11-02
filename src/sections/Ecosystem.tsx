@@ -5,21 +5,21 @@ import { Section, SectionHeading } from "@/components/common/SectionHeading"
 
 /**
  * 生态合作：6 类角色卡片
- * 每个角色附带一行英文标签，体现产业链位置。
+ * 每个角色附带一行英文标签，体现测试链路上的位置。
  */
 
 /** 角色 → 英文标签映射 */
 const ROLE_EN: Record<string, string | undefined> = {
-  晶圆制造: "FOUNDRY",
-  先进封装: "PACKAGING",
+  测试设备厂商: "TESTER",
+  封测与量产服务: "OSAT",
+  芯片设计公司: "DESIGN",
+  高校与研究机构: "UNIV",
   "EDA 工具": "EDA",
-  整机与集成: "OEM",
-  行业方案商: "SI",
-  基础软件: "OS",
+  材料与针体供应: "MATL",
 }
 
 /** 角色 → 图标映射（按索引循环兜底） */
-const ROLE_ICONS: LucideIcon[] = [Cpu, Boxes, Wrench, Server, Users, SquareTerminal]
+const ROLE_ICONS: LucideIcon[] = [Server, Boxes, Cpu, Users, SquareTerminal, Wrench]
 
 export default function Ecosystem() {
   return (
@@ -33,10 +33,10 @@ export default function Ecosystem() {
           eyebrow="ECOSYSTEM"
           title={
             <>
-              共建<span className="text-gradient">自主可控</span>的半导体生态
+              串联<span className="text-gradient">测试全链路</span>的配套生态
             </>
           }
-          desc="从晶圆制造到基础软件，与产业链上下游伙伴建立联合产能与联合方案，让国产算力底座在真实场景中跑通。"
+          desc="从测试设备、探针台与分选机，到封测厂、设计公司、高校实验室与 EDA 工具链，再到针体材料与镀层供应，与各环节伙伴对齐接口、坐标系与工艺边界，让探针卡与测试座在真实产线与实验台上直接可用。"
         />
 
         <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -91,7 +91,7 @@ export default function Ecosystem() {
                 PARTNER PROGRAM
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
-                想成为生态伙伴？提交技术方向与量产计划，我们将在 5 个工作日内回复。
+                想成为测试生态伙伴？提交你的封装类型与测试场景，我们将在 1 个工作日内回复初步方案与报价。
               </p>
             </div>
             <a

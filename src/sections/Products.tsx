@@ -34,28 +34,29 @@ const COLOR_STYLES: Record<
   },
 }
 
-/** 跑马灯文案：资质、认证与生态关键词 */
+/** 跑马灯文案：精度、封装与交付能力关键词 */
 const MARQUEE_ITEMS = [
-  "信创认证",
-  "麒麟 OS",
-  "统信 UOS",
-  "ISO 27001",
-  "车规级 AEC-Q100",
-  "2.5D 先进封装",
-  "国密算法支持",
-  "RoHS",
-  "UCIe 联盟成员",
+  "±5μm 精度",
+  "Pitch 80μm 起",
+  "QFN / BGA / WLCSP",
+  "一件起订",
+  "3 天交付",
+  "高精度 PCB",
+  "刀锋型针尖",
+  "接触力可调",
+  "镍金镀层",
+  "垂直测试座",
 ]
 
 export default function Products() {
   return (
     <section id="product" className="relative py-20 sm:py-28">
       <div className="shell">
-        {/* 资质与生态跑马灯 */}
+        {/* 工艺能力与产品标签跑马灯 */}
         <div
           className="mask-fade-x relative mb-14 overflow-hidden border-y border-white/[0.07] bg-ink-950/40 py-3"
           role="region"
-          aria-label="资质与生态认证"
+          aria-label="工艺能力与产品标签"
         >
           <div className="flex w-max animate-marquee items-center">
             {[0, 1].map((copy) => (
@@ -77,11 +78,11 @@ export default function Products() {
           eyebrow="PRODUCT PORTFOLIO"
           title={
             <>
-              覆盖云、边、端的
-              <span className="text-gradient">全场景产品矩阵</span>
+              覆盖打样到量产的
+              <span className="text-gradient">探针卡与测试座产品线</span>
             </>
           }
-          desc="以统一的 IP 底座与编译器工具链为支撑，面向数据中心、智算集群、工业边缘与系统厂商提供四条产品线，覆盖训练、推理与 IP 授权的全场景算力需求。"
+          desc="从常规单层探针卡到大 die 高密度方案，从垂直测试座到探针卡 + 测试座 + 测试 PCB + 夹具的一站式交付，覆盖 QFN / BGA / WLCSP 等 20 余种封装，一件起订、最快 3 天出样。"
           align="center"
         />
 

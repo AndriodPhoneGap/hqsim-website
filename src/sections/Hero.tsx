@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-import { ArrowRight, FileText } from "lucide-react"
+import { ArrowRight, Boxes } from "lucide-react"
 import { brand, heroStats } from "@/data/site"
 import { Reveal } from "@/components/common/Reveal"
 import { cn } from "@/lib/utils"
@@ -86,19 +86,19 @@ function Counter({
 }
 
 /* -------------------------------------------------------------------------- */
-/*                              芯片 + 电路主视觉 SVG                          */
+/*                            探针卡 + 电路主视觉 SVG                           */
 /* -------------------------------------------------------------------------- */
 
-/** 电路走线：每条带流动虚线，端点为焊盘节点；reverse 为反向流动 */
+/** 电路走线：每条带流动虚线，端点为 PAD 接触节点；reverse 为反向流动 */
 const TRACES: { d: string; color: string; reverse?: boolean; delay: number }[] = [
-  { d: "M190 232 H132 V178 H74", color: "#22d3ee", delay: 0 },
-  { d: "M190 300 H112 V340 H58", color: "#22d3ee", reverse: true, delay: -0.6 },
+  { d: "M190 232 H132 V178 H74", color: "#40c29e", delay: 0 },
+  { d: "M190 300 H112 V340 H58", color: "#40c29e", reverse: true, delay: -0.6 },
   { d: "M280 190 V118 H212 V64", color: "#8b5cf6", delay: -1.2 },
-  { d: "M280 190 V140 H368 V86", color: "#22d3ee", reverse: true, delay: -1.8 },
-  { d: "M370 236 H432 V186 H512", color: "#22d3ee", delay: -2.4 },
+  { d: "M280 190 V140 H368 V86", color: "#40c29e", reverse: true, delay: -1.8 },
+  { d: "M370 236 H432 V186 H512", color: "#40c29e", delay: -2.4 },
   { d: "M370 316 H448 V356 H512", color: "#8b5cf6", reverse: true, delay: -3 },
-  { d: "M280 370 V440 H340 V496", color: "#22d3ee", delay: -3.6 },
-  { d: "M244 370 V452 H176 V496", color: "#22d3ee", reverse: true, delay: -4.2 },
+  { d: "M280 370 V440 H340 V496", color: "#40c29e", delay: -3.6 },
+  { d: "M244 370 V452 H176 V496", color: "#40c29e", reverse: true, delay: -4.2 },
 ]
 
 /** 走线端点节点坐标 */
@@ -121,17 +121,17 @@ const ANNOTATIONS: {
   anchor: "start" | "middle" | "end"
   color: string
 }[] = [
-  { text: "XISA", x: 220, y: 56, anchor: "start", color: "#5ee9ff" },
-  { text: "NPU CORE", x: 376, y: 78, anchor: "start", color: "#5ee9ff" },
-  { text: "UCIe", x: 68, y: 156, anchor: "end", color: "#22d3ee" },
-  { text: "42nm", x: 52, y: 318, anchor: "end", color: "#22d3ee" },
-  { text: "HBM", x: 512, y: 166, anchor: "end", color: "#5ee9ff" },
-  { text: "SRAM", x: 168, y: 502, anchor: "end", color: "#22d3ee" },
+  { text: "PROBE CARD", x: 220, y: 56, anchor: "start", color: "#8ff8dc" },
+  { text: "TEST SOCKET", x: 376, y: 78, anchor: "start", color: "#8ff8dc" },
+  { text: "PAD", x: 68, y: 156, anchor: "end", color: "#40c29e" },
+  { text: "±5μm", x: 52, y: 318, anchor: "end", color: "#40c29e" },
+  { text: "QFN/BGA", x: 512, y: 166, anchor: "end", color: "#8ff8dc" },
+  { text: "WAFER TEST", x: 168, y: 502, anchor: "end", color: "#40c29e" },
 ]
 
 const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
 
-/** 计算单元阵列不透明度（确定性伪随机，避免每次渲染跳动） */
+/** 针体阵列不透明度（确定性伪随机，避免每次渲染跳动） */
 const cellOpacity = (col: number, row: number) =>
   0.14 + (((col * 5 + row * 3 + col * row) % 8) / 8) * 0.76
 
@@ -141,26 +141,26 @@ function ChipIllustration({ className }: { className?: string }) {
       viewBox="0 0 560 560"
       className={cn("h-auto w-full", className)}
       role="img"
-      aria-label="XZE 系列 AI 芯片与电路互连示意图"
+      aria-label="HQSIM 探针卡与芯片互连示意图"
     >
       <defs>
-        {/* 芯体描边渐变 */}
+        {/* 主体描边渐变 */}
         <linearGradient id="xze-chip-stroke" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#5ee9ff" />
-          <stop offset="55%" stopColor="#22d3ee" />
+          <stop offset="0%" stopColor="#8ff8dc" />
+          <stop offset="55%" stopColor="#40c29e" />
           <stop offset="100%" stopColor="#8b5cf6" />
         </linearGradient>
         {/* 外层光晕 */}
         <radialGradient id="xze-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.3" />
-          <stop offset="55%" stopColor="#22d3ee" stopOpacity="0.08" />
+          <stop offset="0%" stopColor="#40c29e" stopOpacity="0.3" />
+          <stop offset="55%" stopColor="#40c29e" stopOpacity="0.08" />
           <stop offset="100%" stopColor="#04060d" stopOpacity="0" />
         </radialGradient>
         {/* 扫描光带渐变 */}
         <linearGradient id="xze-scan" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
-          <stop offset="50%" stopColor="#5ee9ff" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+          <stop offset="0%" stopColor="#40c29e" stopOpacity="0" />
+          <stop offset="50%" stopColor="#8ff8dc" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#40c29e" stopOpacity="0" />
         </linearGradient>
         {/* 霓虹辉光滤镜 */}
         <filter id="xze-neon" x="-50%" y="-50%" width="200%" height="200%">
@@ -170,7 +170,7 @@ function ChipIllustration({ className }: { className?: string }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        {/* 芯体裁剪区，供扫描光带使用 */}
+        {/* 主体裁剪区，供扫描光带使用 */}
         <clipPath id="xze-chip-clip">
           <rect x="190" y="190" width="180" height="180" rx="26" />
         </clipPath>
@@ -185,7 +185,7 @@ function ChipIllustration({ className }: { className?: string }) {
         className="animate-spin-slow"
         fill="none"
       >
-        <circle cx="280" cy="280" r="248" stroke="#22d3ee" strokeOpacity="0.22" strokeWidth="1" strokeDasharray="1 12" />
+        <circle cx="280" cy="280" r="248" stroke="#40c29e" strokeOpacity="0.22" strokeWidth="1" strokeDasharray="1 12" />
         <circle cx="280" cy="280" r="196" stroke="#8b5cf6" strokeOpacity="0.16" strokeWidth="1" strokeDasharray="3 18" />
       </g>
       <g
@@ -198,7 +198,7 @@ function ChipIllustration({ className }: { className?: string }) {
         className="animate-spin-slow"
         fill="none"
       >
-        <circle cx="280" cy="280" r="214" stroke="#22d3ee" strokeOpacity="0.3" strokeWidth="1.4" strokeDasharray="10 16" />
+        <circle cx="280" cy="280" r="214" stroke="#40c29e" strokeOpacity="0.3" strokeWidth="1.4" strokeDasharray="10 16" />
       </g>
       <g
         style={{
@@ -209,7 +209,7 @@ function ChipIllustration({ className }: { className?: string }) {
         className="animate-spin-slow"
         fill="none"
       >
-        <circle cx="280" cy="280" r="166" stroke="#5ee9ff" strokeOpacity="0.14" strokeWidth="1" strokeDasharray="26 22" />
+        <circle cx="280" cy="280" r="166" stroke="#8ff8dc" strokeOpacity="0.14" strokeWidth="1" strokeDasharray="26 22" />
       </g>
 
       {/* 电路走线：stroke-dasharray + animate-trace-flow 形成流动感 */}
@@ -235,13 +235,13 @@ function ChipIllustration({ className }: { className?: string }) {
       <g>
         {NODES.map(([x, y]) => (
           <g key={`${x}-${y}`}>
-            <circle cx={x} cy={y} r="7" fill="#22d3ee" fillOpacity="0.16" className="animate-pulse-glow" />
-            <circle cx={x} cy={y} r="3" fill="#5ee9ff" />
+            <circle cx={x} cy={y} r="7" fill="#40c29e" fillOpacity="0.16" className="animate-pulse-glow" />
+            <circle cx={x} cy={y} r="3" fill="#8ff8dc" />
           </g>
         ))}
       </g>
 
-      {/* 芯体：悬浮 + 发光 */}
+      {/* 主体：悬浮 + 发光 */}
       <g className="animate-float-slow">
         <rect
           x="190"
@@ -250,15 +250,15 @@ function ChipIllustration({ className }: { className?: string }) {
           height="180"
           rx="26"
           fill="none"
-          stroke="#22d3ee"
+          stroke="#40c29e"
           strokeOpacity="0.45"
           strokeWidth="1.5"
           filter="url(#xze-neon)"
         />
         <rect x="190" y="190" width="180" height="180" rx="26" fill="#070b16" stroke="url(#xze-chip-stroke)" strokeWidth="1.6" />
-        <rect x="201" y="201" width="158" height="158" rx="19" fill="none" stroke="#22d3ee" strokeOpacity="0.18" strokeWidth="1" />
+        <rect x="201" y="201" width="158" height="158" rx="19" fill="none" stroke="#40c29e" strokeOpacity="0.18" strokeWidth="1" />
 
-        {/* 芯内计算单元阵列 */}
+        {/* 芯内探针针体阵列（对应芯片 PAD 接触点） */}
         <g>
           {Array.from({ length: 8 }).map((_, row) =>
             Array.from({ length: 8 }).map((__, col) => (
@@ -269,7 +269,7 @@ function ChipIllustration({ className }: { className?: string }) {
                 width="12"
                 height="12"
                 rx="2.5"
-                fill={(row + col) % 7 === 0 ? "#8b5cf6" : "#22d3ee"}
+                fill={(row + col) % 7 === 0 ? "#8b5cf6" : "#40c29e"}
                 fillOpacity={cellOpacity(col, row)}
               />
             )),
@@ -277,12 +277,12 @@ function ChipIllustration({ className }: { className?: string }) {
         </g>
 
         {/* 芯内隔层走线 */}
-        <g stroke="#5ee9ff" strokeOpacity="0.12" strokeWidth="1">
+        <g stroke="#8ff8dc" strokeOpacity="0.12" strokeWidth="1">
           <path d="M190 254 H370" />
           <path d="M190 306 H370" />
         </g>
 
-        {/* 扫描光带：沿芯体纵向扫过（transform-box 需为 fill-box 才能正确位移） */}
+        {/* 扫描光带：沿主体纵向扫过（transform-box 需为 fill-box 才能正确位移） */}
         <g clipPath="url(#xze-chip-clip)">
           <rect
             x="190"
@@ -295,12 +295,12 @@ function ChipIllustration({ className }: { className?: string }) {
           />
         </g>
 
-        {/* 芯体中心十字准星 */}
-        <g stroke="#5ee9ff" strokeOpacity="0.35" strokeWidth="1">
+        {/* 主体中心十字准星 */}
+        <g stroke="#8ff8dc" strokeOpacity="0.35" strokeWidth="1">
           <path d="M272 280 H288 M280 272 V288" />
         </g>
 
-        {/* 芯体型号 */}
+        {/* 主体型号 */}
         <text
           x="280"
           y="359"
@@ -308,10 +308,10 @@ function ChipIllustration({ className }: { className?: string }) {
           fontFamily={MONO}
           fontSize="9"
           letterSpacing="2.4"
-          fill="#5ee9ff"
+          fill="#8ff8dc"
           fillOpacity="0.55"
         >
-          XZE-N900
+          HQSIM-PC
         </text>
       </g>
 
@@ -325,7 +325,7 @@ function ChipIllustration({ className }: { className?: string }) {
       </g>
 
       {/* 角落装饰刻度 */}
-      <g stroke="#22d3ee" strokeOpacity="0.3" strokeWidth="1">
+      <g stroke="#40c29e" strokeOpacity="0.3" strokeWidth="1">
         <path d="M28 40 V28 H40" />
         <path d="M520 40 V28 H508" />
         <path d="M28 520 V532 H40" />
@@ -367,7 +367,7 @@ export default function Hero() {
           <div className="animate-fade-up">
             <p className="eyebrow">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-glow" />
-              AI Silicon Foundry · 2026
+              PROBE CARD · TEST SOCKET · 2026
             </p>
 
             <h1
@@ -384,19 +384,19 @@ export default function Hero() {
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="#architecture" className="btn-glow group">
-                了解我们的架构
+              <a href="#lead" className="btn-glow group">
+                获取定制方案
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
-              <a href="#ecosystem" className="btn-ghost group">
-                <FileText className="h-4 w-4 transition-colors group-hover:text-cyan-400" />
-                下载技术白皮书
+              <a href="#product" className="btn-ghost group">
+                <Boxes className="h-4 w-4 transition-colors group-hover:text-cyan-400" />
+                查看产品中心
               </a>
             </div>
 
             <div className="mt-8 flex items-center gap-2.5 font-mono text-xs text-muted-foreground">
               <span className="h-2 w-2 shrink-0 animate-pulse-glow rounded-full bg-mint-400 shadow-glow" />
-              <span>已服务 300+ 量产客户 · 覆盖 6 大场景 · 12nm 平台研发中</span>
+              <span>一件起订 · 最快 3 天交付样件 · 支持 QFN / BGA / WLCSP 等封装</span>
             </div>
           </div>
 
@@ -412,7 +412,7 @@ export default function Hero() {
       <section aria-labelledby="hero-stats-heading" className="shell relative mt-16 sm:mt-20 lg:mt-24">
         <div className="hairline mb-9" />
         <h2 id="hero-stats-heading" className="sr-only">
-          核心性能指标
+          关键指标
         </h2>
         <div className="grid grid-cols-2 gap-x-6 gap-y-9 lg:grid-cols-4">
           {heroStats.map((stat, index) => (

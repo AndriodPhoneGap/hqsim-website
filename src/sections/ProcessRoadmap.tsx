@@ -5,7 +5,7 @@ import { Reveal } from "@/components/common/Reveal"
 import { Section, SectionHeading } from "@/components/common/SectionHeading"
 
 /**
- * 工艺路线图时间轴
+ * 交付流程时间轴
  * - 桌面端：水平发光渐变线 + 5 列节点，圆点与线条严格对齐（圆点单独成行，不参与位移动画）
  * - 移动端：左侧竖线 + 圆点的竖向时间轴
  */
@@ -14,9 +14,11 @@ type StatusMeta = {
   label: string
   badge: string
   dot: string
+  /** 徽章上显示的业务文案，缺省时沿用数据源中的 status */
+  text?: string
 }
 
-/** 状态视觉映射：量产=cyan / 流片=violet / 规划=muted / 预研=灰 */
+/** 状态视觉映射：量产=cyan / 打样=violet / 规划=muted / 预研=灰 */
 const STATUS_META: Record<string, StatusMeta | undefined> = {
   量产: {
     label: "MASS PRODUCTION",
@@ -24,19 +26,22 @@ const STATUS_META: Record<string, StatusMeta | undefined> = {
     dot: "bg-cyan-400",
   },
   流片: {
-    label: "TAPEOUT",
+    label: "SAMPLING",
     badge: "border-violet-500/30 bg-violet-500/10 text-violet-400",
     dot: "bg-violet-400",
+    text: "打样",
   },
   规划: {
     label: "PLANNED",
     badge: "border-white/10 bg-white/[0.04] text-muted-foreground",
     dot: "bg-white/45",
+    text: "设计中",
   },
   预研: {
     label: "PRE-RESEARCH",
     badge: "border-white/10 bg-white/[0.03] text-muted-foreground/80",
     dot: "bg-white/25",
+    text: "验证中",
   },
 }
 
@@ -104,7 +109,7 @@ function NodeTitle({
         )}
         title={meta.label}
       >
-        {status}
+        {meta.text ?? status}
       </span>
     </div>
   )
@@ -142,14 +147,14 @@ export default function ProcessRoadmap() {
 
       <div className="relative">
         <SectionHeading
-          eyebrow="PROCESS ROADMAP"
+          eyebrow="DELIVERY PROCESS"
           title={
             <>
-              从 <span className="text-gradient tnum">42nm</span> 到{" "}
-              <span className="text-gradient tnum">5nm</span> 的自主工艺进阶
+              从 <span className="text-gradient">{firstNode.node}</span> 到{" "}
+              <span className="text-gradient">{lastNode.node}</span> 的服务闭环
             </>
           }
-          desc="以成熟制程保障规模化出货，以 FinFET 与混合键合承接先进算力需求，工艺、封装与芯粒互联同步演进。"
+          desc="需求与图纸审查、机械设计、针体材料、组装夹具到测试验证交付，五环节专人跟进、全程技术支持并行推进；一件起订不设最小批量门槛，紧急样件最快 3 天交付，交付即附针位坐标表与接触电阻抽检记录。"
         />
 
         {/* ---------- 桌面端：水平时间轴 ---------- */}
@@ -224,33 +229,33 @@ export default function ProcessRoadmap() {
             <div className="flex items-center gap-2 text-cyan-400">
               <Layers className="h-4 w-4" />
               <span className="font-mono text-[11px] uppercase tracking-[0.22em]">
-                ROADMAP SNAPSHOT
+                DELIVERY SNAPSHOT
               </span>
             </div>
 
             <dl className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               <div className="border-l border-white/10 pl-4">
-                <dt className="text-xs text-muted-foreground">工艺跨度</dt>
+                <dt className="text-xs text-muted-foreground">服务跨度</dt>
                 <dd className="tnum mt-1.5 font-mono text-lg text-foreground sm:text-xl">
                   {firstNode.node} → {lastNode.node}
                 </dd>
               </div>
               <div className="border-l border-white/10 pl-4">
-                <dt className="text-xs text-muted-foreground">已量产节点</dt>
+                <dt className="text-xs text-muted-foreground">量产状态节点</dt>
                 <dd className="tnum mt-1.5 font-mono text-lg text-cyan-400 sm:text-xl">
                   {massCount} / {processRoadmap.length}
                 </dd>
               </div>
               <div className="border-l border-white/10 pl-4">
-                <dt className="text-xs text-muted-foreground">封装演进</dt>
+                <dt className="text-xs text-muted-foreground">起订规模</dt>
                 <dd className="tnum mt-1.5 font-mono text-lg text-foreground sm:text-xl">
-                  2.5D → 3D
+                  1 件 → 批量
                 </dd>
               </div>
               <div className="border-l border-white/10 pl-4">
-                <dt className="text-xs text-muted-foreground">芯粒互联</dt>
+                <dt className="text-xs text-muted-foreground">交付周期</dt>
                 <dd className="tnum mt-1.5 font-mono text-lg text-foreground sm:text-xl">
-                  UCIe 标准
+                  最快 3 天
                 </dd>
               </div>
             </dl>
@@ -258,19 +263,19 @@ export default function ProcessRoadmap() {
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/[0.07] pt-4 text-[12px] text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <Rocket className="h-3.5 w-3.5 text-cyan-400" />
-                2026 年 16nm FinFET 流片验证
+                紧急样件最快 3 天交付
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Cpu className="h-3.5 w-3.5 text-violet-400" />
-                2027 年存算一体规模商用
+                针位偏差与平面度 ±5μm
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Factory className="h-3.5 w-3.5 text-mint-400" />
-                全流程自主可控
+                针体加工与镀层自有工艺线
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <GitBranch className="h-3.5 w-3.5 text-cyan-400" />
-                工艺与封装协同演进
+                探针卡与测试座同坐标系装配
               </span>
             </div>
           </div>

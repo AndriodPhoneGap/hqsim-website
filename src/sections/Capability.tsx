@@ -23,11 +23,11 @@ export default function Capability() {
           eyebrow="CORE CAPABILITIES"
           title={
             <>
-              从工艺到算力栈的
-              <span className="text-gradient">全栈自研</span>
+              从图纸到量产的
+              <span className="text-gradient">全链路交付</span>
             </>
           }
-          desc="以先进封装为起点、以编译器与指令集为枢纽，芯智纪元在硅工艺、芯粒设计、工具链与系统集成四个维度持续投入，为客户交付从 IP 到整机的完整链路。"
+          desc="探针卡定制、测试座供应、快速打样与测试方案咨询四大核心服务并行展开：AI 芯片初创团队用 1 件起订的样件抢回测试窗口，高校与研究实验室拿到可复现的低成本封装测试方案，流片方案公司则依托统一坐标系的多客户共卡服务完成批次复测。"
           align="center"
         />
 

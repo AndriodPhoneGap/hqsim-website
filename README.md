@@ -1,10 +1,14 @@
-# 芯智纪元 · 半导体人工智能科技官网
+# HQSIM 探芯测试 · AI 芯片探针卡 & 测试座定制官网
 
-> 以硅基算力，重塑智能边界 —— 面向 AI 推理与训练场景的端到端芯片架构公司官网。
+> 以探针精度，触碰每一颗芯片 —— PROBE CARD & TEST SOCKET
 
-一套可直接部署到 **GitHub Pages** 的单页企业官网，聚焦半导体与人工智能赛道，展示技术能力、芯片架构、产品矩阵、工艺路线、生态合作与客户案例。
+HQSIM 探芯测试是 **AI 芯片探针卡 & 测试座定制专家**。官网展示探针卡定制、测试座供应、快速打样与测试方案咨询四大核心服务，支持 QFN / BGA / WLCSP 等 20 余种封装，高精度 ±5μm，一件起订，最快 3 天交付样件。
 
-**已内置公众号私域变现链路**：技术洞察区（与公众号同步的深度分析）→ 工具包勾选留资 → 选型需求表单 → 全站微信浮标。详细运营方法见 [PRIVATE-DOMAIN-GUIDE.md](./PRIVATE-DOMAIN-GUIDE.md)。
+一套可直接部署到 **GitHub Pages** 的单页企业官网，展示核心服务、定制流程、产品线、交付节奏、配套生态与客户案例。
+
+**官网**：<https://www.hqsim.com/zh> · **官方仓库**：<https://github.com/AndriodPhoneGap/HQSIM> · **咨询**：yuning662008@gmail.com · 182-0118-1983
+
+**已内置公众号私域变现链路**：技术洞察区（与公众号同步的深度分析）→ 工具包勾选留资 → 方案需求表单 → 全站微信浮标。详细运营方法见 [PRIVATE-DOMAIN-GUIDE.md](./PRIVATE-DOMAIN-GUIDE.md)。
 
 **技术栈**：React 19 · TypeScript · Vite 7 · Tailwind CSS 3 · shadcn/ui · lucide-react
 
@@ -42,7 +46,7 @@ npm run lint
 ```bash
 git init
 git add .
-git commit -m "feat: 芯智纪元半导体 AI 官网初始版本"
+git commit -m "feat: HQSIM 探芯测试官网初始版本"
 git branch -M main
 git remote add origin https://github.com/<你的用户名>/<仓库名>.git
 git push -u origin main
@@ -85,7 +89,14 @@ https://<你的用户名>.github.io/<仓库名>/
 semiconductor-ai/
 ├── .github/workflows/deploy.yml   # GitHub Pages 自动部署工作流
 ├── public/
-│   └── 404.html                   # 自定义 404 页面（深色科技风）
+│   ├── 404.html                   # 自定义 404 页面（深色科技风）
+│   ├── favicon-32.png             # 浏览器标签页图标（HQSIM 徽章）
+│   ├── hqsim-logo.png             # HQSIM 官方圆徽章原图
+│   ├── hqsim-logo-64.png          # 徽章多尺寸：64
+│   ├── hqsim-logo-128.png         # 徽章多尺寸：128
+│   ├── hqsim-logo-256.png         # 徽章多尺寸：256
+│   ├── hqsim-logo-512.png         # 徽章多尺寸：512（OG 分享图）
+│   └── wechat-qrcode.svg          # 公众号二维码（占位图，需替换）
 ├── src/
 │   ├── App.tsx                    # 页面装配入口（区块顺序编排）
 │   ├── main.tsx                   # React 挂载点
@@ -93,28 +104,8 @@ semiconductor-ai/
 │   ├── data/
 │   │   └── site.ts                # ★ 全站内容数据源（文案与数据集中管理）
 │   ├── components/
-│   │   ├── common/
-│   │   │   ├── Reveal.tsx         # 滚动进场动画（IntersectionObserver）
-│   │   │   └── SectionHeading.tsx # 区块标题组 + 区块外壳
-│   │   ├── layout/
-│   │   │   └── Footer.tsx         # 页脚
-│   │   └── ui/                    # shadcn/ui 组件库（40+）
-│   ├── sections/                  # 页面区块（按功能组织）
-│   │   ├── Navbar.tsx             # 顶部导航（滚动高亮 + 移动端菜单）
-│   │   ├── Hero.tsx               # 首屏主视觉（SVG 芯片 + 计数动画）
-│   │   ├── Capability.tsx         # 四大技术能力
-│   │   ├── Architecture.tsx       # 五层芯片架构（交互式 SVG 剖面图）
-│   │   ├── Products.tsx           # 产品矩阵（含跑马灯）
-│   │   ├── Applications.tsx       # 应用场景
-│   │   ├── Insights.tsx           # 技术洞察（与公众号联动 + 订阅侧栏）
-│   │   ├── ProcessRoadmap.tsx     # 工艺路线图时间轴
-│   │   ├── Ecosystem.tsx          # 生态合作
-│   │   ├── Cases.tsx              # 客户案例
-│   │   ├── News.tsx               # 新闻动态
-│   │   ├── Faq.tsx                # 常见问题
-│   │   ├── LeadCapture.tsx        # 选型需求留资表单（私域转化主路径）
-│   │   └── Cta.tsx               # 底部行动号召
-│   ├── components/
+│   │   ├── brand/
+│   │   │   └── HqsimLogo.tsx      # HQSIM 品牌标识（HqsimMark / HqsimMarkColor）
 │   │   ├── common/
 │   │   │   ├── Reveal.tsx         # 滚动进场动画（IntersectionObserver）
 │   │   │   └── SectionHeading.tsx # 区块标题组 + 区块外壳
@@ -122,13 +113,25 @@ semiconductor-ai/
 │   │   │   ├── Footer.tsx         # 页脚
 │   │   │   └── WechatDock.tsx     # 全站微信私域浮标（二维码弹窗）
 │   │   └── ui/                    # shadcn/ui 组件库（40+）
+│   ├── sections/                  # 页面区块（按功能组织）
+│   │   ├── Navbar.tsx             # 顶部导航（滚动高亮 + 移动端菜单）
+│   │   ├── Hero.tsx               # 首屏主视觉（SVG 探针卡示意 + 计数动画）
+│   │   ├── Capability.tsx         # 四大核心服务
+│   │   ├── Architecture.tsx       # 五环节定制流程（交互式 SVG 剖面图）
+│   │   ├── Products.tsx           # 四条产品线（含跑马灯）
+│   │   ├── Applications.tsx       # 应用场景
+│   │   ├── Insights.tsx           # 技术洞察（与公众号联动 + 订阅侧栏）
+│   │   ├── ProcessRoadmap.tsx     # 交付流程时间轴
+│   │   ├── Ecosystem.tsx          # 配套生态
+│   │   ├── Cases.tsx              # 客户案例
+│   │   ├── News.tsx               # 公司动态
+│   │   ├── Faq.tsx                # 常见问题
+│   │   ├── LeadCapture.tsx        # 方案需求留资表单（私域转化主路径）
+│   │   └── Cta.tsx                # 底部行动号召
 │   ├── lib/
 │   │   ├── utils.ts               # 工具函数（cn 等）
 │   │   └── analytics.ts           # 轻量埋点（GA4 + 微信 SDK 双通道）
 │   └── hooks/                     # 自定义 Hook
-├── public/
-│   ├── 404.html                   # 自定义 404 页面（深色科技风）
-│   └── wechat-qrcode.svg          # 公众号二维码（占位图，需替换）
 ├── index.html                     # SEO / Open Graph / favicon
 ├── tailwind.config.js             # 品牌色板、字体、动画、阴影
 ├── vite.config.ts
@@ -147,14 +150,14 @@ semiconductor-ai/
 export const brand = { name, nameEn, tagline, desc, contact, phone, address }
 export const nav = [...]                // 顶部导航（id 对应区块锚点）
 export const heroStats = [...]          // 首屏数据条
-export const pillars = [...]            // 技术能力
-export const architectureLayers = [...] // 五层架构
-export const products = [...]           // 产品矩阵
-export const processRoadmap = [...]     // 工艺路线
+export const pillars = [...]            // 四大核心服务
+export const architectureLayers = [...] // 五环节定制流程
+export const products = [...]           // 四条产品线
+export const processRoadmap = [...]     // 交付流程
 export const applications = [...]       // 应用场景
-export const ecosystem = [...]          // 生态合作
+export const ecosystem = [...]          // 配套生态
 export const cases = [...]              // 客户案例
-export const news = [...]               // 新闻动态
+export const news = [...]               // 公司动态
 export const faqs = [...]               // 常见问题
 export const footerColumns = [...]      // 页脚链接
 export const insights = [...]           // 技术洞察（与公众号同步的深度分析）
@@ -167,23 +170,23 @@ export const leadForm = {...}           // 留资表单配置（字段 / 卖点 
 ```ts
 export const brand = {
   // ...
-  wechatName: "芯智纪元",        // 公众号名称
-  wechatId: "xinzhi_era",        // 微信号
+  wechatName: "HQSIM 探芯测试",   // 公众号名称
+  wechatId: "abcm-888",           // 微信号
   wechatQr: "/wechat-qrcode.svg", // 二维码图片路径
-  wecomName: "芯智选型顾问",     // 企业微信名称
+  wecomName: "HQSIM 探针卡顾问",  // 企业微信名称
 }
 ```
 
-替换 `public/wechat-qrcode.svg` 为真实二维码图片，全站 3 处引用（洞察侧栏、留资表单、浮标弹窗）自动生效。
+替换 `public/wechat-qrcode.svg` 为真实二维码图片，全站 4 处引用（洞察侧栏、留资表单、浮标弹窗）自动生效。
 
 ### 修改配色
 
 品牌色板在 `tailwind.config.js` 的 `theme.extend.colors` 中定义：
 
 ```js
-cyan:   { 400: "#5ee9ff", 500: "#22d3ee", 600: "#06b6d4" }  // 主色
+cyan:   { 400: "#8ff8dc", 500: "#6df0c4", 600: "#40c29e" }  // HQSIM 主色（薄荷青绿）
 violet: { 400: "#a78bfa", 500: "#8b5cf6", 600: "#7c3aed" }  // 辅助色
-mint:   { 400: "#5eead4", 500: "#2dd4bf" }                  // 点缀色
+mint:   { 400: "#7df5c8", 500: "#3fbd97" }                  // 点缀色
 ink:    { 950: "#04060d", 900: "#070b16", ... }            // 深色底
 ```
 
@@ -197,18 +200,18 @@ ink:    { 950: "#04060d", 900: "#070b16", ... }            // 深色底
 
 ### 修改 SEO
 
-编辑 `index.html` 中的 `<title>`、`description`、`og:*`、`twitter:*` 与 `canonical` 标签。favicon 为内联 SVG（芯片标记），无需额外文件。
+编辑 `index.html` 中的 `<title>`、`description`、`og:*`、`twitter:*` 与 `canonical` 标签。favicon 使用 HQSIM 官方徽章多尺寸 PNG（`favicon-32.png` / `hqsim-logo-64.png` / `hqsim-logo-128.png` / `hqsim-logo-256.png`），OG 分享图使用 `hqsim-logo-512.png`。
 
 ---
 
 ## ✨ 设计特性
 
-- **深色科技风视觉**：深空蓝黑底 + 电光青 / 紫罗兰渐变，电路网格纹理背景
-- **纯手绘 SVG 插画**：Hero 芯片主视觉、芯片剖面图、流程图均为原生 SVG，零图片依赖、任意分辨率清晰
+- **深色科技风视觉**：深空蓝黑底 + 薄荷青绿 / 紫罗兰渐变，电路网格纹理背景
+- **官方品牌标识**：采用 HQSIM 官方圆徽章（芯片 + 电路走线），配手绘 SVG 插画，零外部图片依赖
 - **滚动进场动画**：`Reveal` 组件基于 IntersectionObserver，支持错落延迟
 - **导航滚动高亮**：实时跟随视口高亮当前区块
 - **数字计数动画**：首屏指标滚动到位后缓动递增
-- **交互式架构图**：hover 五层架构，垂直导轨流动光点跟随高亮层
+- **交互式流程图**：hover 五环节定制流程，垂直导轨流动光点跟随高亮环节
 - **私域转化链路**：技术洞察 ↔ 公众号双向导流、工具包勾选留资、表单校验与成功态引导、全站微信浮标
 - **零依赖埋点**：GA4 + 微信 JS-SDK 双通道上报，UTM 渠道归因，8 类事件覆盖完整漏斗
 - **全响应式**：移动端到宽屏无横向滚动，含移动端抽屉菜单
@@ -219,7 +222,9 @@ ink:    { 950: "#04060d", 900: "#070b16", ... }            // 深色底
 
 ## ⚠️ 免责声明
 
-本站为**演示站点**，页面中的公司名称、产品型号、参数指标、客户案例、合作伙伴与融资信息均为**虚构示例**，仅用于展示前端工程能力与设计实现，不构成任何商业或投资信息。正式使用前请替换 `src/data/site.ts` 中的全部内容及 `index.html` 中的站点信息。
+本网站为 **HQSIM 探芯测试** 官网的重新设计版本，用于展示前端工程实现。页面中部分产品参数、案例描述与交付周期基于官网公开信息整理，具体以实际报价与合同约定为准。
+
+正式部署前需替换 `src/data/site.ts` 中的示例数据，以及 `public/wechat-qrcode.svg` 二维码。
 
 ---
 

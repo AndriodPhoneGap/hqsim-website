@@ -2,78 +2,7 @@ import { useEffect, useState } from "react"
 import { ArrowRight, Download, Menu, X } from "lucide-react"
 import { brand, nav } from "@/data/site"
 import { cn } from "@/lib/utils"
-
-/** 品牌芯片标记：16×16 网格的方形芯体 + 电路引脚 + 青色渐变核心 */
-function BrandMark({ className }: { className?: string }) {
-  // 4×4 计算单元阵列的不透明度分布，中心单元最亮
-  const cells = [
-    [0.9, 0.4, 0.55, 0.28],
-    [0.45, 1, 0.65, 0.32],
-    [0.38, 0.7, 0.88, 0.5],
-    [0.28, 0.46, 0.33, 0.22],
-  ]
-  // 单元阵列起点与步长（16×16 网格坐标）
-  const origin = 5.35
-  const step = 1.2
-  const size = 0.85
-
-  return (
-    <svg viewBox="0 0 16 16" className={className} aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="xze-brand-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#5ee9ff" />
-          <stop offset="100%" stopColor="#22d3ee" />
-        </linearGradient>
-        <filter id="xze-brand-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="0.5" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      {/* 电路引脚 */}
-      <g fill="none" stroke="#22d3ee" strokeOpacity="0.7" strokeWidth="0.7" strokeLinecap="round">
-        <path d="M6 2.6V4.5M8 2.6V4.5M10 2.6V4.5" />
-        <path d="M6 11.5v1.9M8 11.5v1.9M10 11.5v1.9" />
-        <path d="M2.6 6h1.9M2.6 8h1.9M2.6 10h1.9" />
-        <path d="M11.5 6h1.9M11.5 8h1.9M11.5 10h1.9" />
-      </g>
-
-      {/* 芯体 */}
-      <rect
-        x="4.5"
-        y="4.5"
-        width="7"
-        height="7"
-        rx="1.6"
-        fill="#070b16"
-        stroke="url(#xze-brand-grad)"
-        strokeWidth="0.8"
-        filter="url(#xze-brand-glow)"
-      />
-
-      {/* 内部计算单元阵列，中心单元为青色渐变核心 */}
-      <g>
-        {cells.map((row, r) =>
-          row.map((opacity, c) => (
-            <rect
-              key={`${r}-${c}`}
-              x={origin + c * step}
-              y={origin + r * step}
-              width={size}
-              height={size}
-              rx="0.25"
-              fill={r === 1 && c === 1 ? "url(#xze-brand-grad)" : "#22d3ee"}
-              opacity={opacity}
-            />
-          )),
-        )}
-      </g>
-    </svg>
-  )
-}
+import { HqsimMark } from "@/components/brand/HqsimLogo"
 
 /** 顶部导航栏：固定定位 + 滚动后玻璃拟态 + 滚动高亮（scroll spy） */
 export default function Navbar() {
@@ -152,7 +81,7 @@ export default function Navbar() {
           aria-label={`${brand.name} 首页`}
           aria-current={active === "top" ? "page" : undefined}
         >
-          <BrandMark className="h-9 w-9 transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10" />
+          <HqsimMark className="h-9 w-9 transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10" />
           <span className="flex flex-col leading-none">
             <span
               className={cn(

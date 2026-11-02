@@ -1,85 +1,48 @@
 import { Github, Mail, Rss, MessageCircle, Phone, MapPin, Send } from "lucide-react"
 import { brand, footerColumns } from "@/data/site"
-import { cn } from "@/lib/utils"
+import { HqsimMarkColor } from "@/components/brand/HqsimLogo"
 
 /**
  * 页脚：品牌区 + 链接列 + 社交入口 + 版权栏
  */
 
-/** 芯片 Logo 标记（纯 SVG，无外部依赖） */
-function ChipLogo({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden
-    >
-      <rect
-        x="12"
-        y="12"
-        width="24"
-        height="24"
-        rx="5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-      <rect
-        x="18"
-        y="18"
-        width="12"
-        height="12"
-        rx="2.5"
-        fill="currentColor"
-        opacity="0.35"
-      />
-      {/* 引脚 */}
-      {[17, 24, 31].map((p) => (
-        <g key={`v-${p}`}>
-          <line x1={p} y1="7" x2={p} y2="12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          <line x1={p} y1="36" x2={p} y2="41" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        </g>
-      ))}
-      {[17, 24, 31].map((p) => (
-        <g key={`h-${p}`}>
-          <line x1="7" y1={p} x2="12" y2={p} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          <line x1="36" y1={p} x2="41" y2={p} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        </g>
-      ))}
-    </svg>
-  )
-}
-
-/** 链接文案 → 站内锚点映射 */
-const LINK_HREF: Record<string, string | undefined> = {
-  "XZE-N900 加速卡": "#product",
-  "XZE-E300 边缘模组": "#product",
-  "XZE-T200 训练卡": "#product",
-  "XZE-IP100 IP 授权": "#product",
-  "整机与集群方案": "#product",
-  "Chiplet 先进封装": "#architecture",
-  "存算一体架构": "#architecture",
-  "XZE 编译器": "#capability",
-  "XISA 指令集": "#architecture",
-  "工艺与路线图": "#process",
-  "伙伴计划": "#ecosystem",
-  "开发者社区": "#ecosystem",
-  "模型迁移支持": "#cases",
-  "技术白皮书": "#news",
-  "校园计划": "#ecosystem",
-  "公司简介": "#cases",
+/**
+ * 页脚链接 → 站内锚点映射。
+ * 键为链接文案，值为对应区块 id；未命中的链接统一回落到联系区。
+ */
+const LINK_HREF: Record<string, string> = {
+  // 产品
+  "标准探针卡": "#product",
+  "高密度探针卡": "#product",
+  "测试座 / Socket": "#product",
+  "一站式测试方案": "#product",
+  "打样与交付": "#process",
+  // 服务
+  "探针卡定制": "#capability",
+  "测试座供应": "#capability",
+  "快速打样": "#capability",
+  "方案咨询": "#capability",
+  "服务流程": "#process",
+  "精度与工艺": "#architecture",
+  // 技术
+  "技术资料": "#insights",
+  "封装类型对照": "#insights",
+  "设计规则速查": "#insights",
+  "应用场景": "#application",
+  "常见问题": "#faq",
+  // 关于
+  "关于我们": "#top",
   "新闻动态": "#news",
-  "加入我们": "#contact",
-  "媒体报道": "#news",
-  "联系与地址": "#contact",
+  "联系我们": "#contact",
+  "在线留言": "#lead",
+  "微信公众号": "#insights",
 }
 
 /** 社交 / 合作入口 */
 const SOCIALS = [
-  { icon: Github, label: "GitHub", href: "https://github.com/your-org/xinzhi-era", external: true },
-  { icon: MessageCircle, label: "知乎", href: "#news", external: false },
-  { icon: Rss, label: "微信公众号", href: "#insights", external: false },
+  { icon: Github, label: "GitHub", href: brand.github, external: true },
+  { icon: MessageCircle, label: "微信公众号", href: "#insights", external: false },
+  { icon: Rss, label: "技术资料", href: "#insights", external: false },
   { icon: Mail, label: "邮件订阅", href: `mailto:${brand.contact}`, external: false },
 ]
 
@@ -95,20 +58,20 @@ export default function Footer() {
           {/* 品牌区 */}
           <div className="max-w-sm">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-500/25 bg-cyan-500/[0.08] text-cyan-400">
-                <ChipLogo className="h-6 w-6" />
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-500/25 bg-cyan-500/[0.08]">
+                <HqsimMarkColor className="h-9 w-9" />
               </span>
               <div>
                 <p className="text-[15px] font-semibold tracking-tight text-foreground">
                   {brand.name}
                 </p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-500/80">
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-cyan-500/80">
                   {brand.nameEn}
                 </p>
               </div>
             </div>
 
-            <p className="mt-5 font-mono text-[12px] tracking-[0.1em] text-muted-foreground/90">
+            <p className="mt-5 font-mono text-[12px] tracking-[0.1em] text-muted-foreground opacity-90">
               {brand.tagline}
             </p>
             <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
@@ -130,10 +93,10 @@ export default function Footer() {
                 <Phone className="h-3.5 w-3.5 text-cyan-500/70 transition-colors group-hover:text-cyan-400" />
                 {brand.phone}
               </a>
-              <span className="inline-flex items-start gap-2 font-mono text-[12px] text-muted-foreground">
-                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-500/70" />
+              <p className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5 text-cyan-500/70" />
                 {brand.address}
-              </span>
+              </p>
             </div>
           </div>
 
@@ -166,46 +129,42 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* ---------- 中部：社交 / 合作入口 ---------- */}
-        <div className="mt-12 flex flex-col items-start gap-5 border-t border-white/[0.07] pt-8 sm:flex-row sm:items-center sm:justify-between">
+        {/* ---------- 中部：社交入口 + 订阅 ---------- */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-white/[0.07] pt-8 sm:flex-row">
           <div className="flex items-center gap-3">
-            {SOCIALS.map(({ icon: Icon, label, href, external }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                title={label}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noreferrer noopener" : undefined}
-                className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.02]",
-                  "text-muted-foreground transition-all duration-300",
-                  "hover:border-cyan-500/50 hover:bg-cyan-500/[0.08] hover:text-cyan-400",
-                )}
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
+            {SOCIALS.map((s) => {
+              const Icon = s.icon
+              return (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  {...(s.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+                  aria-label={s.label}
+                  title={s.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-muted-foreground transition-all duration-300 hover:border-cyan-500/50 hover:text-cyan-400"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </a>
+              )
+            })}
           </div>
 
           <a
-            href={`mailto:${brand.contact}?subject=${encodeURIComponent("订阅芯智纪元技术通讯")}`}
-            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 font-mono text-[12px] text-muted-foreground transition-all duration-300 hover:border-cyan-500/50 hover:text-cyan-400"
+            href={`mailto:${brand.contact}?subject=${encodeURIComponent("订阅 HQSIM 技术通讯")}`}
+            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-[13px] text-foreground transition-all duration-300 hover:border-cyan-500/50 hover:text-cyan-400"
           >
-            <Send className="h-3.5 w-3.5" />
+            <Send className="h-3.5 w-3.5 text-cyan-500/70 transition-colors group-hover:text-cyan-400" />
             订阅技术通讯
           </a>
         </div>
 
         {/* ---------- 底部版权栏 ---------- */}
-        <div className="mt-8 flex flex-col gap-2 border-t border-white/[0.07] pt-6 text-[12px] text-muted-foreground/80 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 {brand.name} {brand.nameEn}. 保留所有权利。</p>
-          <p className="text-muted-foreground/60">
-            本站为演示站点，页面中公司名称、产品型号与数据均为虚构示例。
+        <div className="mt-8 flex flex-col items-center gap-3 border-t border-white/[0.07] pt-8 text-center sm:flex-row sm:justify-between sm:text-left">
+          <p className="font-mono text-[11px] text-muted-foreground opacity-70">
+            © 2026 {brand.name} · {brand.nameEn}. 保留所有权利。
           </p>
-          <p className="font-mono tracking-[0.08em]">
-            粤ICP备2026000000号-0
-            <span className="ml-2 text-muted-foreground/50">（示例）</span>
+          <p className="text-[11px] text-muted-foreground opacity-60">
+            探针卡与测试座定制 · 一件起订 · 最快 3 天交付样件
           </p>
         </div>
       </div>

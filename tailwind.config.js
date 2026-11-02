@@ -48,7 +48,7 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        /* ---- Brand tokens: 深空硅蓝 ---- */
+        /* ---- Brand tokens: HQSIM 探芯测试 薄荷青绿 ---- */
         ink: {
           950: "#04060d",
           900: "#070b16",
@@ -58,9 +58,9 @@ module.exports = {
           600: "#1c2745",
         },
         cyan: {
-          400: "#5ee9ff",
-          500: "#22d3ee",
-          600: "#06b6d4",
+          400: "#8ff8dc",
+          500: "#6df0c4",
+          600: "#40c29e",
         },
         violet: {
           400: "#a78bfa",
@@ -68,8 +68,8 @@ module.exports = {
           600: "#7c3aed",
         },
         mint: {
-          400: "#5eead4",
-          500: "#2dd4bf",
+          400: "#7df5c8",
+          500: "#3fbd97",
         },
       },
       fontFamily: {
