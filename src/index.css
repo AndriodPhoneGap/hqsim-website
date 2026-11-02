@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 4%;
+    --foreground: 213 40% 96%;
+    --card: 222 44% 7%;
+    --card-foreground: 213 40% 96%;
+    --popover: 222 44% 7%;
+    --popover-foreground: 213 40% 96%;
+    --primary: 187 86% 53%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 222 35% 14%;
+    --secondary-foreground: 213 40% 96%;
+    --muted: 222 35% 12%;
+    --muted-foreground: 215 22% 65%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 222 47% 6%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 218 32% 18%;
+    --input: 218 32% 18%;
+    --ring: 187 86% 53%;
+    --radius: 0.75rem;
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 213 40% 96%;
+    --sidebar-primary: 187 86% 53%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 35% 14%;
+    --sidebar-accent-foreground: 213 40% 96%;
+    --sidebar-border: 218 32% 18%;
+    --sidebar-ring: 187 86% 53%;
+
+    --cyan-500: 187 86% 53%;
+    --violet-500: 258 90% 66%;
+  }
+
+  .dark {
+    --background: 222 47% 4%;
+    --foreground: 213 40% 96%;
+    --card: 222 44% 7%;
+    --card-foreground: 213 40% 96%;
+    --popover: 222 44% 7%;
+    --popover-foreground: 213 40% 96%;
+    --primary: 187 86% 53%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 222 35% 14%;
+    --secondary-foreground: 213 40% 96%;
+    --muted: 222 35% 12%;
+    --muted-foreground: 215 22% 65%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 222 47% 6%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 218 32% 18%;
+    --input: 218 32% 18%;
+    --ring: 187 86% 53%;
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 213 40% 96%;
+    --sidebar-primary: 187 86% 53%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 35% 14%;
+    --sidebar-accent-foreground: 213 40% 96%;
+    --sidebar-border: 218 32% 18%;
+    --sidebar-ring: 187 86% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "tnum";
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: hsl(var(--cyan-500) / 0.28);
+    color: hsl(var(--foreground));
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(222 47% 5%);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(218 32% 20%);
+    border-radius: 999px;
+    border: 2px solid hsl(222 47% 5%);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(187 60% 32%);
+  }
+}
+
+@layer components {
+  /* 版面容器 */
+  .shell {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+  }
+
+  /* 电路网格背景 */
+  .bg-circuit {
+    background-image:
+      linear-gradient(to right, hsl(187 70% 55% / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(187 70% 55% / 0.055) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .bg-dotfield {
+    background-image: radial-gradient(hsl(213 40% 96% / 0.12) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* 渐变文字 */
+  .text-gradient {
+    @apply bg-gradient-to-r from-cyan-400 via-cyan-500 to-violet-500 bg-clip-text text-transparent;
+  }
+
+  /* 玻璃卡片 */
+  .glass {
+    @apply border border-white/[0.07] bg-white/[0.025] backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply border border-white/[0.1] bg-ink-850/80 backdrop-blur-2xl;
+  }
+
+  /* 顶部渐隐遮罩，用于线性分隔 */
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent;
+  }
+
+  /* 小标签 */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.28em] text-cyan-500/90;
+  }
+
+  /* 发光按钮 */
+  .btn-glow {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold text-ink-950 transition-all duration-300 hover:bg-cyan-400 hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:border-cyan-500/50 hover:bg-cyan-500/[0.08] hover:text-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50;
+  }
+
+  /* 数字等宽对齐 */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* 滚动进场动画（由 IntersectionObserver 添加 .is-visible） */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
